@@ -1,0 +1,7 @@
+[package]
+name = "cpu"
+version = "0.1.0"
+authors = ["Joe Chasinga <jo.chasinga@gmail.com>"]
+description = "Simple Example: Code that loops and prints"
+
+[dependencies]
