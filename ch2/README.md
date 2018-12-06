@@ -2,9 +2,9 @@
 
 A running program does one simple thing: executes instructions, millions of them.
 
-### Basic [Von Neumann][1] model of computing
+## Basic [Von Neumann][1] model of computing
 
-#### The processor (CPU):
+### The processor (CPU):
 
 - **fetches** an instruction from memory
 - **decodes** it (figures out which instruction it is)
@@ -13,11 +13,7 @@ A running program does one simple thing: executes instructions, millions of them
 
 ![Von Neumann's Bottleneck on Wikipedia][2]
 
-
-*Von Neumann's Architecture*
-
-
-#### Operating system is:
+### Operating system is
 
 A software that abstracts the machine's hardware interface and make it easy to run programs,
 giving the illusion of running many at once, let programs share memory, and connect programs
@@ -25,12 +21,10 @@ to other connected devices.
 
 The whole process is called **virtualization**.
 
-#### Operating system does:
+### Operating system does
 
-- virtualize machine's physical resource (CPU, memory, disk) and transform it into a more
-general easy-to-use **virtual** form of itself.
-
-- provide interfaces/APIs that a program can call, also known as the **standard library**.
+- virtualize machine's physical resource (CPU, memory, disk) and transform it into a more general easy-to-use **virtual** form of itself
+- provide interfaces/APIs that a program can call, also known as the **standard library**
 
 > 👋  We sometimes refer to OS as **virtual machine**.
 
@@ -41,17 +35,17 @@ use std::process::exit;
 use std::{thread, time};
 
 fn main() {
-	// Check if the number of command line arguments is 2
+    // Check if the number of command line arguments is 2
     if env::args().len() != 2 {
         eprintln!("usage: cpu <string>");
         exit(1);
     }
 
-	// Retrieve the second argument (the first is the command line invocation).
+    // Retrieve the second argument (the first is the command line invocation).
     let string = env::args().nth(1).unwrap_or_else(|| "".to_string());
     let one_second = time::Duration::from_millis(1000);
 
-	// Print the argument every one second
+    // Print the argument every one second
     loop {
         println!("{}", string);
         thread::sleep(one_second);
@@ -59,10 +53,10 @@ fn main() {
 }
 
 ```
+
 Figure 2.1: **Simple Example: Code That Loops and Prints** [![open playground](../assets/open-playground-3b8277.svg)][3]
 
 ### 2.1 Virtualizing the CPU
-
 
 In Figure 2.1 the system runs program, which repeatedly checks the time until one second has elapsed
 and prints the input string passed in by user. (The program runs forever so press `Ctrl-c` to terminate).
@@ -104,6 +98,7 @@ D
 # ...
 
 ```
+
 Figure 2.2: **Running Many Programs At Once**
 
 The OS (with some help from the hardware) creates an **illusion** that the system has a 
@@ -111,7 +106,6 @@ very large number of virtual CPUs when it only has one. This process is called *
 
 OS has a **policy** that determines which program *should* run at a particular time (and which should wait)
 when more than one program wants to run at the same time. This makes the OS the role of **resource manager**.
-
 
 ```rust
 
@@ -123,7 +117,7 @@ fn main() {
     // since that would be using unsafe code and won't be as concise.
 
     let mut p: isize = 0;
-	// Accessing a pointer's address is safe as long as you do not dereference (ask for the value it points to)
+    // Accessing a pointer's address is safe as long as you do not dereference (ask for the value it points to)
     let p_raw = &mut p as *mut isize;
     println!("({}) address pointed to by p: {:p}", process::id(), p_raw);
 
@@ -137,13 +131,12 @@ fn main() {
 
 
 ```
-Figure 2.3: **A Program That Accesses Memory** [![open playground](../assets/open-playground-3b8277.svg)][4]
 
+Figure 2.3: **A Program That Accesses Memory** [![open playground](../assets/open-playground-3b8277.svg)][4]
 
 ## 2.2 Virtualizing Memory
 
 Memory model in modern machines is simple--Memory is just an array of bytes.
-
 
 ```text
 
@@ -173,11 +166,11 @@ $ ./mem
 ```
 
 In Rust, manually allocating memory is considered unsafe. What the programs does are
+
 - Initializes / allocates some memory for type `isize` (architecture-dependent sized integer)
 - Prints out the address of the memory
 - Loops, delays for a second, and increment the value at that address
 - Also prints what is called the process identifier (PID) of the program
-
 
 ```shell
 
@@ -195,6 +188,7 @@ $ (./mem &); (./mem &)
 # ...
 
 ```
+
 Figure 2.4: **Running the Memory Program Multiple Times**
 
 When run multiple instances of the program we see the program has
@@ -209,11 +203,7 @@ This is the OS **virtualizing memory**. Each proceess accesses its own private
 
 A memory reference within a running program does not affect the address space of other processes (or the OS itself). The reality is the physical memory is a shared resource managed by the OS.
 
-
-
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
 [4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
-
-
