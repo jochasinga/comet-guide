@@ -1,6 +1,6 @@
-# comet-book
+# comet-guide ![bare metal](assets/bare-metal-c04868.svg)
 
-Study guide to OS [the "Comet" book][1] with code examples in Rust.
+Study guide to the [OS "Comet" book][1] with code examples in Rust.
 
 ## objective
 
