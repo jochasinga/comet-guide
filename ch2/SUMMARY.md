@@ -4,7 +4,7 @@ A running program does one simple thing: executes instructions, millions of them
 
 ### Basic [Von Neumann][1] model of computing
 
-#### The processor (CPU):	
+#### The processor (CPU):
 
 - **fetches** an instruction from memory
 - **decodes** it (figures out which instruction it is)
@@ -25,7 +25,7 @@ The whole process is called **virtualization**.
 #### Operating system does:
 
 - virtualize machine's physical resource (CPU, memory, disk) and transform it into a more
-general easy-to-use **virtual** form of itself. 
+general easy-to-use **virtual** form of itself.
 
 - provide interfaces/APIs that a program can call, also known as the **standard library**.
 
@@ -56,7 +56,7 @@ fn main() {
 }
 
 ```
-Figure 2.1: **Simple Example: Code That Loops and Prints** ([open playground][3])
+Figure 2.1: **Simple Example: Code That Loops and Prints** [![open playground](../assets/open-playground-3b8277.svg)][3]
 
 ### 2.1 Virtualizing the CPU
 
@@ -134,7 +134,7 @@ fn main() {
 
 
 ```
-Figure 2.3: **A Program That Accesses Memory** ([open playground][4])
+Figure 2.3: **A Program That Accesses Memory** [![open playground](../assets/open-playground-3b8277.svg)][4]
 
 
 ## 2.2 Virtualizing Memory
