@@ -14,6 +14,9 @@ A running program does one simple thing: executes instructions, millions of them
 ![Von Neumann's Bottleneck on Wikipedia][2]
 
 
+*Von Neumann's Architecture*
+
+
 #### Operating system is:
 
 A software that abstracts the machine's hardware interface and make it easy to run programs,
@@ -209,7 +212,7 @@ A memory reference within a running program does not affect the address space of
 
 
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
-[2]: https://en.wikipedia.org/wiki/Von_Neumann_architecture#/media/File:Von_Neumann_Architecture.svg
+[2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
 [4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
 
