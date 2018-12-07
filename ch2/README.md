@@ -118,10 +118,10 @@ fn main() {
         let layout = Layout::new::<isize>();
         let p = alloc(layout);
         println!("({}) address pointed to by p: {:p}", process::id(), p);
-        *p = 0;
+        *(p as *mut isize) = 0;
         loop {
             thread::sleep(time::Duration::from_millis(1000));
-            *p += 1;
+            *(p as *mut isize) += 1;
             println!("({}) p: {}", process::id(), *p);
         }
     }
@@ -297,7 +297,7 @@ These **system calls** are routed to the part in OS called the **file system**.
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
-[4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=67d51263db52a4c27aae50c6fa5e4185
+[4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=0ab4045f3b0fad1708f99230cd81e90a
 [5]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
 [6]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=d882688e6201d137614fc9b300b89429
 [7]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=573cca48bc1ce5e4b7f62df00fd22690
