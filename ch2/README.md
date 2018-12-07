@@ -205,8 +205,62 @@ This is the OS **virtualizing memory**. Each proceess accesses its own private
 
 A memory reference within a running program does not affect the address space of other processes (or the OS itself). The reality is the physical memory is a shared resource managed by the OS.
 
+## 2.3 Concurrency
+
+**Concurrency** is a term to refer to a host of problems when working on many things at once (i.e., concurrently) in the same program.
+
+```rust
+
+use std::process::exit;
+use std::sync::{Arc, Mutex};
+use std::{env, thread};
+
+fn main() {
+    // Arc atomically count references to this resource making it possible
+    // to call `counter.clone()` later.
+    let counter = Arc::new(Mutex::new(0));
+    let loops: isize;
+
+    if env::args().len() != 2 {
+        eprintln!("usage: threads <value>");
+        exit(1);
+    }
+
+    let first_arg = env::args().nth(1).unwrap_or_else(|| "".to_string());
+    loops = first_arg.parse::<isize>().unwrap();
+
+    println!("Initial value : {}", counter.lock().unwrap());
+
+    let mut children = Vec::new();
+
+    for _ in 0..2 {
+        let counter = counter.clone();
+        let child = thread::spawn(move || {
+            for _i in 0..loops {
+                let mut num = counter.lock().unwrap();
+                *num += 1;
+            }
+            // the lock is unlocked here when `num` goes out of scope.
+        });
+        children.push(child)
+    }
+
+    for child in children {
+        child.join().unwrap();
+    }
+
+    println!("Final value    : {}", counter.lock().unwrap());
+}
+
+```
+
+Figure 2.5: **A Multi-threaded Program** [![open playground](../assets/open-playground-3b8277.svg)][6]
+
+
+
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
 [4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=67d51263db52a4c27aae50c6fa5e4185
 [5]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
+[6]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=d882688e6201d137614fc9b300b89429
