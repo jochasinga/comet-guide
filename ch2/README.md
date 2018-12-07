@@ -256,7 +256,43 @@ fn main() {
 
 Figure 2.5: **A Multi-threaded Program** [![open playground](../assets/open-playground-3b8277.svg)][6]
 
+## 2.4 Persistence
 
+```rust
+
+use std::fs::OpenOptions;
+use std::io::prelude::*;
+
+fn main() -> std::io::Result<()> {
+    OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open("/tmp/file")
+        .unwrap()
+        .write_all(b"hello world\n")?;
+    Ok(())
+}
+
+```
+
+Figure 2.6: **A Program That Does I/O** [![open playground](../assets/open-playground-3b8277.svg)][7]
+
+Data can be easily lost in system memory, since devices like [DRAM][8] store values in a **volatile** manner.
+
+The software in the OS that manages the disk is called the **file system**.
+
+Unlike the abstractions OS provides for CPU and memory, it does not create a private, virtualized disk for each application. It is assumed that users will want to **share** information that is in files. Files are shared across different processes.
+
+In figure 2.6 the code creates a file (`/tmp/file`) that contains the string "Hello world".
+
+The program makes three calls into the OS.
+
+1. `open()` opens the file and creates it
+2. `write()` writes some bytes of data to the file
+3. `close()` closes the file (implicit in Rust)
+
+These **system calls** are routed to the part in OS called the **file system**.
 
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
@@ -264,3 +300,5 @@ Figure 2.5: **A Multi-threaded Program** [![open playground](../assets/open-play
 [4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=67d51263db52a4c27aae50c6fa5e4185
 [5]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
 [6]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=d882688e6201d137614fc9b300b89429
+[7]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=573cca48bc1ce5e4b7f62df00fd22690
+[8]: https://en.wikipedia.org/wiki/Dynamic_random-access_memory
