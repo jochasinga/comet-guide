@@ -101,7 +101,7 @@ D
 
 Figure 2.2: **Running Many Programs At Once**
 
-The OS (with some help from the hardware) creates an **illusion** that the system has a 
+The OS (with some help from the hardware) creates an **illusion** that the system has a
 very large number of virtual CPUs when it only has one. This process is called **virtualizing the CPU**.
 
 OS has a **policy** that determines which program *should* run at a particular time (and which should wait)
@@ -111,28 +111,30 @@ when more than one program wants to run at the same time. This makes the OS the 
 
 use std::process;
 use std::{thread, time};
+use std::alloc::{alloc, Layout};
 
 fn main() {
-    // This code does not map close to the book's C equivalence
-    // since that would be using unsafe code and won't be as concise.
-
-    let mut p: isize = 0;
-    // Accessing a pointer's address is safe as long as you do not dereference (ask for the value it points to)
-    let p_raw = &mut p as *mut isize;
-    println!("({}) address pointed to by p: {:p}", process::id(), p_raw);
-
-    let one_second = time::Duration::from_millis(1000);
-    loop {
-        thread::sleep(one_second);
-        p += 1;
-        println!("({}) p: {}", process::id(), p);
+    unsafe {
+        let layout = Layout::new::<isize>();
+        let p = alloc(layout);
+        println!("({}) address pointed to by p: {:p}", process::id(), p);
+        *p = 0;
+        loop {
+            thread::sleep(time::Duration::from_millis(1000));
+            *p += 1;
+            println!("({}) p: {}", process::id(), *p);
+        }
     }
 }
-
 
 ```
 
 Figure 2.3: **A Program That Accesses Memory** [![open playground](../assets/open-playground-3b8277.svg)][4]
+
+> ⚠️ Beware that the code in figure 2.3 is unsafe.
+> This is normal in the C/C++ world, but not in Rust.
+> Please see `main_safe.rs` in the same directory
+> or visit the [safe code in the playground][5].
 
 ## 2.2 Virtualizing Memory
 
@@ -206,4 +208,5 @@ A memory reference within a running program does not affect the address space of
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
-[4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
+[4]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=67d51263db52a4c27aae50c6fa5e4185
+[5]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=d30e99297261bfcd32036639f2bb0aca
