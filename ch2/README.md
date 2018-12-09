@@ -294,6 +294,45 @@ The program makes three calls into the OS.
 
 These **system calls** are routed to the part in OS called the **file system**.
 
+## 2.5 Design Goals
+
+### The OS
+
+- takes physical **resources** (like CPU, memory, or disk) and **virtualizes** them
+- handles **concurrency** issues
+- stores files **persistently**
+
+### Some goals
+
+- to build **abstractions** to make the system easy to use
+- to provide high **performance** or **minimize the overheads** of the OS
+- to provide **protection** between applications as well as between OS and applications (**isolation**)
+- to provide high **reliability**
+
+### Other goals
+
+- **energy-efficiency**
+- **security** against malicious applications
+- **mobility** in smaller devices
+
+## 2.6 Some History
+
+### Early OS: Just Libraries
+
+In the beginning, the OS was a set of libraries of commonly-used functions; Instead of writing low-level I/) handling code, the "OS" would provide such APIs for the programmer.
+
+### Beyond Libraries: Protection
+
+Protect application from accessing hardware freely. The idea of **system call** was invented. Instead of providing OS routines as a library that any application code can call as a **procedure call** (think modern RPC), the system call transfers control (i.e., jumps) into the OS while raising the **hardware privilege level**. User applications run in what is referred to as **user mode** which means the hardware restricts what applications can do; for example, an application running in user mode can't initiate an I/O request to disk, access physical memory page, or send a package on the network.
+
+When a system call is initiated (through a special hardware instruction called a **trap**), the hardware transfers control to a pre-specified **trap handler** and raises the privilege level to **kernel mode**.
+
+In kernel mode, the OS has full access to the hardware and can do things like initiate an I/O request or make more memory available to a program. When OS is done, it passes control back to the user via a special **return-from-trap** instruction and reverts to user mode and passing control back to where the application left off.
+
+### The Era of Multiprogramming
+
+TBD...
+
 [1]: https://en.wikipedia.org/wiki/John_von_Neumann
 [2]: https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png
 [3]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2015&gist=b4424d0f10aa8db25eb2b1429021ea4c
