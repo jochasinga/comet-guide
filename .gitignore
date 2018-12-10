@@ -1,0 +1,9 @@
+*~
+*#
+target
+*.file
+*.txt
+*.output
+
+# cargo submodules
+*/*/.gitignore
