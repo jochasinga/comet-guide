@@ -4,7 +4,7 @@ A running program does one simple thing: executes instructions, millions of them
 
 ## Basic [Von Neumann][1] model of computing
 
-### The processor (CPU):
+### The processor (CPU)
 
 - **fetches** an instruction from memory
 - **decodes** it (figures out which instruction it is)
@@ -61,7 +61,7 @@ Figure 2.1: **Simple Example: Code That Loops and Prints** [![open playground](.
 In Figure 2.1 the system runs program, which repeatedly checks the time until one second has elapsed
 and prints the input string passed in by user. (The program runs forever so press `Ctrl-c` to terminate).
 
-> 👋  `Ctrl-c` is known as `KeyboardInterrupt`. This signal interrupts the processor from whatever it is working on.
+> 👋  `Ctrl-c` is known as `KeyboardInterrupt`. This sents a *SIGINT* signal to interrupt the running process.
 
 ```shell
 
